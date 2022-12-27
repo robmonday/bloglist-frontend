@@ -3,6 +3,18 @@ import Blog from './components/Blog'
 import blogService from './services/blogs'
 import loginService from './services/login'
 
+const notificationStyle = {color: 'blue'}
+
+const Notification = ({message}) => {
+  if (message === null) {
+    return null
+  }
+
+  return (
+    <div style={notificationStyle} className='error'><p>{message}</p></div>
+  )
+}
+
 const App = () => {
   const [blogs, setBlogs] = useState([])
   const [newBlog, setNewBlog] = useState({})
@@ -27,6 +39,11 @@ const App = () => {
     }
   }, [])
   
+  const showTempNotification = (message) => {
+    setErrorMessage(message)
+    setTimeout(() => {setErrorMessage(null)}, 4000)
+  }
+
   const addBlog = (event) => {
     event.preventDefault()
     const blogObject = {
@@ -40,10 +57,11 @@ const App = () => {
       .create(blogObject)
       .then(returnedBlog => {
         setBlogs(blogs.concat(returnedBlog))
+        showTempNotification("Blog entry added: "+ returnedBlog.title)
         setNewBlog({author: "", title: "", url: ""})
       })
   }
-  
+
   const handleLogin = async (event) => {
     event.preventDefault()
     
@@ -56,10 +74,12 @@ const App = () => {
       setUsername('')
       setPassword('')
     } catch (exception) {
-      setErrorMessage('Wrong credentials')
-      setTimeout(() => {
-        setErrorMessage(null)
-      }, 5000)
+      // setErrorMessage('Wrong credentials')
+      // setTimeout(() => {
+      //   setErrorMessage(null)
+      // }, 5000)
+
+      showTempNotification("These are the wrong credentials")
     }
   }
 
@@ -85,6 +105,7 @@ const App = () => {
             <button type="submit">login</button>
           </div>
         </form>
+        <div><Notification message={errorMessage} /></div>
       </div>
     )
   }
@@ -98,6 +119,7 @@ const App = () => {
           <button onClick={handleLogout}>logout</button>
         </p>
       </div>
+      <Notification message={errorMessage} />
       <div>
         <h2>create new</h2>
         <form onSubmit={addBlog}>
