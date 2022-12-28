@@ -21,7 +21,7 @@ const Notification = ({message}) => {
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
-  const [newBlog, setNewBlog] = useState({})
+  // const [newBlog, setNewBlog] = useState({})
   const [errorMessage, setErrorMessage ] = useState(null)
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
@@ -48,21 +48,12 @@ const App = () => {
     setTimeout(() => {setErrorMessage(null)}, 4000)
   }
 
-  const addBlog = (event) => {
-    event.preventDefault()
-    const blogObject = {
-      "title": newBlog.title,
-      "author": newBlog.author,
-      "url": newBlog.url,
-      "userId": "63a49f8240eafe1336d77989"
-    }
-
+  const addBlog = (blogObject) => {
     blogService
       .create(blogObject)
       .then(returnedBlog => {
         setBlogs(blogs.concat(returnedBlog))
         showTempNotification("Blog entry added: "+ returnedBlog.title)
-        setNewBlog({author: "", title: "", url: ""})
       })
   }
 
@@ -126,7 +117,7 @@ const App = () => {
       <Notification message={errorMessage} />
 
       <Togglable buttonLabel="create new blog">
-        <BlogForm onSubmit={addBlog} handleChange={setNewBlog} values={newBlog}  />
+        <BlogForm createBlog={addBlog} />
       </Togglable>
       
       <br/>
