@@ -3,21 +3,10 @@ import { useState, useEffect } from 'react'
 import Blog from './components/Blog'
 import BlogForm from './components/BlogForm'
 import Togglable from './components/Togglable'
+import Notification from './components/Notification'
 
 import blogService from './services/blogs'
 import loginService from './services/login'
-
-const notificationStyle = {color: 'blue'}
-
-const Notification = ({message}) => {
-  if (message === null) {
-    return null
-  }
-
-  return (
-    <div style={notificationStyle} className='error'><p>{message}</p></div>
-  )
-}
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
@@ -44,7 +33,7 @@ const App = () => {
   
   const showTempNotification = (message) => {
     setErrorMessage(message)
-    setTimeout(() => {setErrorMessage(null)}, 4000)
+    setTimeout(() => {setErrorMessage(null)}, 3000)
   }
 
   const addBlog = (blogObject) => {
@@ -80,6 +69,24 @@ const App = () => {
   const handleLogout = () => {
     setUser(null)
     window.localStorage.removeItem('loggedBloglistUser')
+  }
+
+  const removeBlogHandler = (id) => {
+    if (window.confirm("Are you sure you want to delete this record?")) {
+
+      const updatedBlogs = []
+      for (const blog of blogs) {
+        if (blog.id !== id) {
+          updatedBlogs.push(blog)
+        }
+      }
+
+      blogService
+        .deleteBlog(id)
+        .then(setBlogs(updatedBlogs))
+        
+      showTempNotification("Record deleted")
+    }
   }
 
   
@@ -122,7 +129,7 @@ const App = () => {
       <br/>
       <div>
         {blogs.map(blog =>
-          <Blog key={blog.id} blog={blog} />
+          <Blog key={blog.id} blog={blog} user={user} removeBlogHandler={removeBlogHandler} />
         )}
       </div>
     </div>
