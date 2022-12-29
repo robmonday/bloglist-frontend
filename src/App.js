@@ -4,6 +4,7 @@ import Blog from './components/Blog'
 import BlogForm from './components/BlogForm'
 import Togglable from './components/Togglable'
 import Notification from './components/Notification'
+import LoginForm from './components/LoginForm'
 
 import blogService from './services/blogs'
 import loginService from './services/login'
@@ -89,25 +90,22 @@ const App = () => {
     }
   }
 
+  const handleUsernameChange = ({target}) => setUsername(target.value)
+
+  const handlePasswordChange = ({target}) => setPassword(target.value)
   
   if (user === null) {
     return (
-      <div>
-        <h2>Log in to the application</h2>
-        <form onSubmit={handleLogin}>
-          <div>
-            username: 
-            <input type="text" value={username} name="Username" onChange={({target}) => setUsername(target.value)} />
-          </div>
-          <div>
-            password: 
-            <input type="password" value={password} name="Password" onChange={({target}) => setPassword(target.value)} />
-            <br /><br />
-            <button type="submit">login</button>
-          </div>
-        </form>
-        <div><Notification message={errorMessage} /></div>
-      </div>
+      <>
+        <LoginForm 
+          handleSubmit={handleLogin}
+          handleUsernameChange={handleUsernameChange}
+          handlePasswordChange={handlePasswordChange}
+          username={username}
+          password={password}
+        />
+        <Notification message={errorMessage} />
+      </>
     )
   }
 
