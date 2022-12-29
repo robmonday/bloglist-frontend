@@ -19,8 +19,8 @@ const App = () => {
   useEffect(() => {
     blogService
       .getAll().then(blogs =>
-      setBlogs(blogs)
-    )  
+        setBlogs(blogs)
+      )
   }, [])
 
   useEffect(() => {
@@ -31,7 +31,7 @@ const App = () => {
       blogService.setToken(user.token)
     }
   }, [])
-  
+
   const showTempNotification = (message) => {
     setErrorMessage(message)
     setTimeout(() => {setErrorMessage(null)}, 3000)
@@ -42,15 +42,15 @@ const App = () => {
       .create(blogObject)
       .then(returnedBlog => {
         setBlogs(blogs.concat(returnedBlog))
-        showTempNotification("Blog entry added: "+ returnedBlog.title)
+        showTempNotification('Blog entry added: '+ returnedBlog.title)
       })
   }
 
   const handleLogin = async (event) => {
     event.preventDefault()
-    
+
     try {
-      const user = await loginService.login({username, password})
+      const user = await loginService.login({ username, password })
 
       window.localStorage.setItem('loggedBloglistUser', JSON.stringify(user))
       blogService.setToken(user.token)
@@ -63,7 +63,7 @@ const App = () => {
       //   setErrorMessage(null)
       // }, 5000)
 
-      showTempNotification("These are the wrong credentials")
+      showTempNotification('These are the wrong credentials')
     }
   }
 
@@ -73,7 +73,7 @@ const App = () => {
   }
 
   const removeBlogHandler = (id) => {
-    if (window.confirm("Are you sure you want to delete this record?")) {
+    if (window.confirm('Are you sure you want to delete this record?')) {
 
       const updatedBlogs = []
       for (const blog of blogs) {
@@ -85,19 +85,19 @@ const App = () => {
       blogService
         .deleteBlog(id)
         .then(setBlogs(updatedBlogs))
-        
-      showTempNotification("Record deleted")
+
+      showTempNotification('Record deleted')
     }
   }
 
-  const handleUsernameChange = ({target}) => setUsername(target.value)
+  const handleUsernameChange = ({ target }) => setUsername(target.value)
 
-  const handlePasswordChange = ({target}) => setPassword(target.value)
-  
+  const handlePasswordChange = ({ target }) => setPassword(target.value)
+
   if (user === null) {
     return (
       <>
-        <LoginForm 
+        <LoginForm
           handleSubmit={handleLogin}
           handleUsernameChange={handleUsernameChange}
           handlePasswordChange={handlePasswordChange}
@@ -123,7 +123,7 @@ const App = () => {
       <Togglable buttonLabel="create new blog">
         <BlogForm createBlog={addBlog} />
       </Togglable>
-      
+
       <br/>
       <div>
         {blogs.map(blog =>

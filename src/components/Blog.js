@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useState } from 'react'
 
 import blogService from '../services/blogs'
 
@@ -19,13 +19,13 @@ const Blog = ({ blog, user, removeBlogHandler }) => {
 
   const likeBlog = () => {
     blogService
-      .update(blog.id, {...blog, likes: likes + 1})
+      .update(blog.id, { ...blog, likes: likes + 1 })
       .then(returnedBlog => {
         setLikes(returnedBlog.likes)
       })
   }
 
-  
+
   const removeButton = () => (
     <button onClick={() => removeBlogHandler(blog.id)}>remove</button>
   )
@@ -41,7 +41,7 @@ const Blog = ({ blog, user, removeBlogHandler }) => {
         {blog.user.name} <br />
         { user.name === blog.user.name ? removeButton() : null }
       </div>
-    </div>  
+    </div>
   )
 }
 
