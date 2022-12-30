@@ -25,7 +25,6 @@ const Blog = ({ blog, user, removeBlogHandler }) => {
       })
   }
 
-
   const removeButton = () => (
     <button onClick={() => removeBlogHandler(blog.id)}>remove</button>
   )
