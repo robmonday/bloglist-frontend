@@ -1,6 +1,7 @@
 import React from 'react'
 import '@testing-library/jest-dom/extend-expect'
 import { render, screen } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 import Blog from './Blog'
 
 test('renders content', () => {
@@ -66,7 +67,39 @@ test('component displaying a blog renders the blog\'s title and author but not u
 
 })
 
-test('url and number of likes are shown when button is clicked', () => {
+test('clicking button displays url and number of likes', async () => {
+  const userObj = {
+    username: 'robmonday',
+    name: 'Rob Monday',
+    blogList: [ ],
+    id: '63a49f8240eafe1336d77989'
+  }
 
+  const blog = {
+    'title': 'cooking with cans',
+    'author': 'Rob Monday',
+    'url': 'www.cookwithcans.com',
+    'likes': 7,
+    'id': '63ad1c0c7bb660faa0fbb91d',
+    'user': {
+      username: 'robmonday',
+      name: 'Rob Monday',
+      blogList: [ ],
+      id: '63a49f8240eafe1336d77989'
+    }
+  }
+
+  // render component
+  const { container } = render(<Blog blog={blog} user={userObj}/>)
+
+  // click button
+  const user = userEvent.setup()
+  const button = screen.getByText('view')
+  await user.click(button)
+
+  // see if detail div is shown
+  const div = container.querySelector('.detail')
+  expect(div).not.toHaveStyle('display: none')
 })
+
 
