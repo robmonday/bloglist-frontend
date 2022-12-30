@@ -31,10 +31,12 @@ const Blog = ({ blog, user, removeBlogHandler }) => {
 
   return (
     <div style={blogStyle}>
-      {blog.title} {blog.author} &nbsp;
-      <button onClick={() => setVisible(true)} style={hideWhenVisible}>view</button>
-      <button onClick={() => setVisible(false)} style={showWhenVisible}>hide</button>
-      <div style={showWhenVisible}>
+      <div className='headline'>
+        {blog.title} {blog.author} &nbsp;
+        <button onClick={() => setVisible(true)} style={hideWhenVisible}>view</button>
+        <button onClick={() => setVisible(false)} style={showWhenVisible}>hide</button>
+      </div>
+      <div style={showWhenVisible} className='detail'>
         <a href={blog.url}>{blog.url}</a><br />
         { likes } likes <button onClick={() => {likeBlog()}}>like</button><br />
         {blog.user.name} <br />
