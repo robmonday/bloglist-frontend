@@ -32,4 +32,19 @@ describe('Bloglist', function() {
     })
   })
 
+  describe('When logged in', function() {
+    beforeEach(function() {
+      cy.login({ username: 'robmonday', password: 'abc123' })
+    })
+
+    it('A new blog entry can be created', function() {
+      cy.contains('create new blog').click()
+      cy.get('#title').type('A new blog entry created by Cypress')
+      cy.get('#author').type('John Doe')
+      cy.get('#url').type('http://www.yahoo.com')
+      cy.get('#create-button').click()
+      cy.contains('A new blog entry created by Cypress')
+    })
+  })
+
 })
