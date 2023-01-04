@@ -33,12 +33,12 @@ const Blog = ({ blog, user, removeBlogHandler }) => {
     <div style={blogStyle}>
       <div className='headline'>
         {blog.title} {blog.author} &nbsp;
-        <button onClick={() => setVisible(true)} style={hideWhenVisible}>view</button>
+        <button className="view-button" onClick={() => setVisible(true)} style={hideWhenVisible}>view</button>
         <button onClick={() => setVisible(false)} style={showWhenVisible}>hide</button>
       </div>
       <div style={showWhenVisible} className='detail'>
         <a href={blog.url}>{blog.url}</a><br />
-        { likes } likes <button onClick={() => {likeBlog()}}>like</button><br />
+        { likes } likes <button className="like-button" onClick={() => {likeBlog()}}>like</button><br />
         {blog.user.name} <br />
         { user.name === blog.user.name ? removeButton() : null }
       </div>

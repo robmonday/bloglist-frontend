@@ -32,19 +32,41 @@ describe('Bloglist', function() {
     })
   })
 
-  describe('When logged in', function() {
+  describe('when logged in', function() {
     beforeEach(function() {
       cy.login({ username: 'robmonday', password: 'abc123' })
     })
 
     it('A new blog entry can be created', function() {
       cy.contains('create new blog').click()
-      cy.get('#title').type('A new blog entry created by Cypress')
+      cy.get('#title').type('A new blog entry added')
       cy.get('#author').type('John Doe')
       cy.get('#url').type('http://www.yahoo.com')
       cy.get('#create-button').click()
-      cy.contains('A new blog entry created by Cypress')
+      cy.contains('A new blog entry added')
     })
-  })
 
+    describe('and several blog entries exist', function() {
+      beforeEach(function() {
+        cy.createBlog({ title: 'first entry', author: 'author goes here', url: 'url goes here' })
+        cy.createBlog({ title: 'second entry', author: 'author goes here', url: 'url goes here' })
+        cy.createBlog({ title: 'third entry', author: 'author goes here', url: 'url goes here' })
+      })
+
+      it('like button increments when pushed', function() {
+        cy.contains('first entry').parent().contains('view').click()
+        cy.contains('first entry').parent().contains('0 likes')
+        cy.contains('first entry').parent().contains('like').click()
+        cy.contains('first entry').parent().contains('1 likes')
+        cy.contains('first entry').parent().contains('like').click()
+        cy.contains('first entry').parent().contains('2 likes')
+      })
+
+      it('', function() {
+
+      })
+    })
+
+
+  })
 })
