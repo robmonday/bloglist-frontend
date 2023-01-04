@@ -60,9 +60,26 @@ describe('Bloglist', function() {
         cy.contains('first entry').parent().contains('1 likes')
         cy.contains('first entry').parent().contains('like').click()
         cy.contains('first entry').parent().contains('2 likes')
+
+        cy.contains('second entry').parent().contains('view').click()
+        cy.contains('second entry').parent().contains('0 likes')
+        cy.contains('second entry').parent().contains('like').click()
+        cy.contains('second entry').parent().contains('1 likes')
+        cy.contains('second entry').parent().contains('like').click()
+        cy.contains('second entry').parent().contains('2 likes')
+
       })
 
-      it('', function() {
+      it('user who created a blog can delete it', function() {
+        cy.contains('first entry').parent().contains('view').click()
+        cy.contains('first entry').parent().contains('remove').click()
+        cy.contains('first entry').should('not.exist')
+        cy.contains('Record deleted')
+
+        cy.contains('second entry').parent().contains('view').click()
+        cy.contains('second entry').parent().contains('remove').click()
+        cy.contains('second entry').should('not.exist')
+        cy.contains('Record deleted')
 
       })
     })
